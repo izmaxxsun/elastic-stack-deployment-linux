@@ -1,5 +1,13 @@
-# elastic-stack-deployment-linux
-Deploy self-managed Elastic, Kibana, and Fleet Server using Linux
+# Overview
+There are several ways to deploy the Elastic stack, in order of increasing difficulty:
+- Fully-managed cloud offering (start a [free trial](https://www.elastic.co/industries/public-sector/fedramp) with no credit card)
+- Self managed with Elastic Cloud for Kubernetes (ECK) or Elastic Cloud Enterprise (ECE)...these are orchestrated options making it simple to install and upgrade
+- Self-managed using binaries
+
+In this walkthrough, we'll deploy Elastic using the last option.  This will include setting up self-managed Elasticsearch, Kibana, and Fleet Server on a Linux virtual machine. Then we'll set up some Observability for an IIS Server running both .NET Core and .NET Framework applications, as well as a SQL Server to see both infrastructure metrics and APM data.
+
+![](https://www.elastic.co/guide/en/fleet/master/images/fleet-server-communication.png)
+Reference: [https://www.elastic.co/guide/en/fleet/master/fleet-server.html](https://www.elastic.co/guide/en/fleet/master/fleet-server.html)
 
 # Setup
 * Elastic v8.3.3
@@ -13,6 +21,9 @@ Deploy self-managed Elastic, Kibana, and Fleet Server using Linux
 ./bin/elasticsearch
 ```
 * Copy the password, HTTP CA certificate SHA-256 fingerprint, and Kibana enrollment token
+* Add inbound rule on port 9220 for EC2 Security Group
+* Open up **elasticsearch.yml** located in $ES_HOME/config and change network.host to **0.0.0.0**
+<img width="598" alt="image" src="https://user-images.githubusercontent.com/100947826/192082715-2d81185a-687d-48f4-aaca-5bf92b6cb1af.png">
 * Check Elasticsearch is running
 ```
 export set ES_HOME=/home/admin/elasticsearch-8.4.2
@@ -20,15 +31,21 @@ curl --cacert $ES_HOME/config/certs/http_ca.crt -u elastic https://localhost:920
 ```
 # Install Kibana
 * [Download and unzip archive](https://www.elastic.co/guide/en/kibana/8.3/targz.html)
+* Update **kibana.yml** in $KIBANA_HOME/config with elasticsearch host output that reaches publicly accessible Elasticsearch
+* Update **kibana.yml** to set **server.host=0.0.0.0** 
+<img width="841" alt="image" src="https://user-images.githubusercontent.com/100947826/192083211-a23fa6af-8950-4431-bfef-fdd0c5bd08fe.png">
+* Open up ports so Kibana is publicly accessible. From Security Group, add inbound rule for port 5601.
 * Run Kibana
 ```
 ./bin/kibana
 ```
-* Open up ports so Kibana is publicly accessible. From Security Group, add inbound rule for port 5601.
-* Update **kibana.yml** to set **server.host=0.0.0.0** 
 <img width="800" alt="image" src="https://user-images.githubusercontent.com/100947826/192077161-0f0f7e7d-0931-48da-89c6-ebe16832242d.png">
+* Open up browser to specified URL and enter enrollment token noted previously
+:heart: Elasticsearch and Kibana are now setup and you can login with username **elastic** and the password noted in previous step
 
 # Setup Fleet Server
+Now we'll setup Fleet Server which provides centralized management of Elastic Agents.
+
 * Navigate to Fleet
 * Follow Quickstart
   * Set Fleet Server URL to **https://<dns_of_ec2_instance>:8220**
@@ -44,20 +61,10 @@ sudo ./elastic-agent install \
 ```
 * Add inbound port rule for port 8220 for EC2 Security Group
 <img width="1388" alt="image" src="https://user-images.githubusercontent.com/100947826/192081144-cf388ecd-b0c3-474b-a159-f35495a5b5f1.png">
-
 * Navigate to Fleet UI and check that Fleet Server agent is healthy and logs are displayed
 <img width="1455" alt="image" src="https://user-images.githubusercontent.com/100947826/192081030-3844a3b5-8aef-4954-b84a-a9303b4e1963.png">
 
 :tada: Take a minute to enjoy successfully setting up Elasticsearch, Kibana, and Fleet Server. Next, we'll get into adding the single, unified Elastic Agent to hosts we want to monitor.
-
-# Open up Elasticsearch
-* Add inbound rule for port 9200
-* Change network.host to **0.0.0.0**
-<img width="598" alt="image" src="https://user-images.githubusercontent.com/100947826/192082715-2d81185a-687d-48f4-aaca-5bf92b6cb1af.png">
-* Update **kibana.yml** with elasticsearch host output that reaches publicly accessible Elasticsearch
-<img width="841" alt="image" src="https://user-images.githubusercontent.com/100947826/192083211-a23fa6af-8950-4431-bfef-fdd0c5bd08fe.png">
-
-ES pwd: y0cOfU2YJX335dSyofmm
 
 # IIS Server
 We'll set up an IIS Server from scratch and deploy both .NET Core and .NET Framework sample applications to see the Elastic APM profiler in action.
