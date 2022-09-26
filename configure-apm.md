@@ -45,6 +45,7 @@ $environment.Keys | ForEach-Object {
   & $appcmd set config -section:system.applicationHost/applicationPools "/+applicationPoolDefaults.environmentVariables.[name='$_',value='$($environment[$_])']"
 }
 ```
+![image](https://user-images.githubusercontent.com/100947826/192351064-653c80f5-c593-4286-9459-c86610f20316.png)
 
 
 https://www.elastic.co/guide/en/apm/agent/dotnet/current/setup-auto-instrumentation.html
