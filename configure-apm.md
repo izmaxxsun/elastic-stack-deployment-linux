@@ -1,6 +1,7 @@
 # Configuring APM Integration with Fleet
 This guide assumes you've already setup Fleet. If you haven't, head over to [Installing Elastic Stack](README.md).
 
+## Add the APM Integration
 * Log in to Kibana
 * Navigate to **Add Integrations** and select **Elastic APM**
 
@@ -19,5 +20,32 @@ This guide assumes you've already setup Fleet. If you haven't, head over to [Ins
 
 <img width="753" alt="image" src="https://user-images.githubusercontent.com/100947826/192190640-dba28521-f447-4e11-b0de-3c6cf845715d.png">
 
-
 Reference: https://www.elastic.co/guide/en/apm/guide/8.4/apm-quick-start.html
+
+## Configure APM Agents
+* Download the **elastic_apm_profiler_<version>.zip** from the Releases page: https://github.com/elastic/apm-agent-dotnet/releases
+* Unzip the file into a folder on the IIS Server
+
+<img width="870" alt="image" src="https://user-images.githubusercontent.com/100947826/192295249-b6302cf4-9c75-427d-b627-bf3fed68afd7.png">
+
+```
+$appcmd = "$($env:systemroot)\system32\inetsrv\AppCmd.exe"
+
+$profilerHomeDir = "C:\elastic_apm_profiler_1.16.1" 
+$environment = @{
+  COR_ENABLE_PROFILING = "1"
+  COR_PROFILER = "{FA65FE15-F085-4681-9B20-95E04F6C03CC}"
+  COR_PROFILER_PATH = "$profilerHomeDir\elastic_apm_profiler.dll"
+  ELASTIC_APM_PROFILER_HOME = "$profilerHomeDir"
+  ELASTIC_APM_PROFILER_INTEGRATIONS = "$profilerHomeDir\integrations.yml"
+  COMPlus_LoaderOptimization = "1" 
+}
+
+$environment.Keys | ForEach-Object {
+  & $appcmd set config -section:system.applicationHost/applicationPools "/+applicationPoolDefaults.environmentVariables.[name='$_',value='$($environment[$_])']"
+}
+```
+
+
+https://www.elastic.co/guide/en/apm/agent/dotnet/current/setup-auto-instrumentation.html
+
