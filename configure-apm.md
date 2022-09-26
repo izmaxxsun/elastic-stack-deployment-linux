@@ -49,3 +49,10 @@ $environment.Keys | ForEach-Object {
 
 https://www.elastic.co/guide/en/apm/agent/dotnet/current/setup-auto-instrumentation.html
 
+# Troubleshooting
+## Profiler Logs
+By default, the Profiler logs will be written to: C:\ProgramData\elastic\apm-agent-dotnet\logs
+
+![image](https://user-images.githubusercontent.com/100947826/192345980-f3b439fd-c267-4769-9cce-ed01c70fb2e9.png)
+  
+This can be changed with the environment variable **ELASTIC_APM_PROFILER_LOG_DIR**.  Reference: https://www.elastic.co/guide/en/apm/agent/dotnet/current/setup-auto-instrumentation.html
