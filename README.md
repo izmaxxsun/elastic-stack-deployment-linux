@@ -24,6 +24,7 @@ Reference: [https://www.elastic.co/guide/en/fleet/master/fleet-server.html](http
 * Add inbound rule on port 9220 for EC2 Security Group
 * Open up **elasticsearch.yml** located in $ES_HOME/config and change network.host to **0.0.0.0**
 <img width="598" alt="image" src="https://user-images.githubusercontent.com/100947826/192082715-2d81185a-687d-48f4-aaca-5bf92b6cb1af.png">
+
 * Check Elasticsearch is running
 ```
 export set ES_HOME=/home/admin/elasticsearch-8.4.2
@@ -31,10 +32,8 @@ curl --cacert $ES_HOME/config/certs/http_ca.crt -u elastic https://localhost:920
 ```
 # Install Kibana
 * [Download and unzip archive](https://www.elastic.co/guide/en/kibana/8.3/targz.html)
-* Update **kibana.yml** in $KIBANA_HOME/config with elasticsearch host output that reaches publicly accessible Elasticsearch
-* Update **kibana.yml** to set **server.host=0.0.0.0** 
-<img width="841" alt="image" src="https://user-images.githubusercontent.com/100947826/192083211-a23fa6af-8950-4431-bfef-fdd0c5bd08fe.png">
-* Open up ports so Kibana is publicly accessible. From Security Group, add inbound rule for port 5601.
+* Update **kibana.yml** in $KIBANA_HOME/config with **server.host=0.0.0.0** to make it externally accessible
+* From EC2 Security Group, add inbound rule for port 5601.
 * Run Kibana
 ```
 ./bin/kibana
@@ -61,6 +60,9 @@ sudo ./elastic-agent install \
 ```
 * Add inbound port rule for port 8220 for EC2 Security Group
 <img width="1388" alt="image" src="https://user-images.githubusercontent.com/100947826/192081144-cf388ecd-b0c3-474b-a159-f35495a5b5f1.png">
+
+* Update **kibana.yml** to point the Fleet output to the publicly accessible Elasticsearch address
+<img width="841" alt="image" src="https://user-images.githubusercontent.com/100947826/192083211-a23fa6af-8950-4431-bfef-fdd0c5bd08fe.png">
 * Navigate to Fleet UI and check that Fleet Server agent is healthy and logs are displayed
 <img width="1455" alt="image" src="https://user-images.githubusercontent.com/100947826/192081030-3844a3b5-8aef-4954-b84a-a9303b4e1963.png">
 
