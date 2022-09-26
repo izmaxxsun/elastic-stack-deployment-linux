@@ -78,7 +78,9 @@ In this example, a Windows Server VM is created using Azure.
 ## Adding an Elastic Agent
 * From the Elastic Fleet UI, click **Add Agent**
 * Create a new policy called **IIS Server Policy**
+
 <img width="836" alt="image" src="https://user-images.githubusercontent.com/100947826/192081626-06d5e9de-e7fd-44a5-a921-2802deca520a.png">
+
 * Copy the Powershell command for Windows installation of the Elastic Agent
 * Add the **--insecure** flag since we are using self-signed certificates and run the Powershell script on the Windows Server VM
 ```
@@ -89,5 +91,11 @@ cd elastic-agent-8.3.3-windows-x86_64
 .\elastic-agent.exe install --url=https://ec2-3-14-3-84.us-east-2.compute.amazonaws.com:8220 --enrollment-token=TWozNWJZTUJWQlQ3RU9yaFBkdTM6cHdGTkYtRXVUR3F0QjdVOFBCNTZXdw== --fleet-server-es-ca-trusted-fingerprint=3acd20b394adcd3fcd83ada57cec534d2c653237ddda65eacff91d66789ad7be --insecure
 ```
 
-* 
+# Troubleshooting
+## Reset Elastic password
+If you forget the elastic built-in user password, run the following:
+```
+bin/elasticsearch-reset-password -u elastic
+```
+Reference: https://www.elastic.co/guide/en/elasticsearch/reference/8.4/targz.html
 
