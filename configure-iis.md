@@ -1,5 +1,7 @@
 # Configure IIS on Windows Server
-This guide walks through configuring IIS on Windows Server to serve up a .NET Framework and .NET Core web application.
+This guide walks through configuring IIS on Windows Server to serve up a .NET Framework and .NET Core web application. This example uses IIS Version 10.
+
+🐪 If you already have IIS set up, skip to [Install ASP.NET](#install-aspnet)
 
 ## Install IIS
 * From Server Manager, click **Add roles and features**
@@ -46,20 +48,20 @@ iisreset /noforce
 
 ## Deploy .NET Applications
 ## Serving Up a .NET Framework Application
-* Copy the **Web Framework Application** from this repository or use Git to clone it onto the Windows server. This was built using .NET Framework 4.8.
+* Copy the **framework.app.publish** folder from this repository or use Git to clone it onto the Windows server. This was built using .NET Framework 4.8. Place it in a folder, e.g. C:\lab_files.
 * From IIS Manager, right-click on **Sites** and select **Add Website...**
 
 <img width="295" alt="image" src="https://user-images.githubusercontent.com/100947826/192178956-cb8bbbc9-696c-47da-84b5-64de97b66980.png">
 
 * Provide a **Site Name**, e.g. Framework WebApp
-* Set **Physical Path** to the publish folder of the application, i.e. **C:\DemoFiles\WebApplication1\WebApplication1\bin\app.publish**
+* Set **Physical Path** to the publish folder of the application, i.e. **C:\lab_files\framework.app.publish**
 * Set the **Binding** to an unassigned port, e.g. 8080
 * Click **Browse** to view the site
 
 <img width="1200" alt="image" src="https://user-images.githubusercontent.com/100947826/192179411-c30432d6-c1c6-42b0-9d52-467c5cec76e5.png">
 
 ## Serving up a .NET Core Application
-* Copy the **Web Core Application** from this repository or use Git to clone it onto the Windows server. This was built using .NET 6.
+* Copy the **core.app.publish** folder from this repository or use Git to clone it onto the Windows server. This was built using .NET 6.  Place it in a folder, e.g. C:\lab_files.
 * From IIS Manager, right-click on **Sites** and select **Add Website...**
 * Provide a **Site Name**, e.g. Core WebApp
 * Set **Physical Path** to the publish folder of the application, i.e. **C:\DemoFiles\WebApplication1\WebApplication1\bin\app.publish**
