@@ -41,7 +41,9 @@ curl --cacert $ES_HOME/config/certs/http_ca.crt -u elastic https://localhost:920
 ./bin/kibana
 ```
 <img width="800" alt="image" src="https://user-images.githubusercontent.com/100947826/192077161-0f0f7e7d-0931-48da-89c6-ebe16832242d.png">
+
 * Open up browser to specified URL and enter enrollment token noted previously
+
 :heart: Elasticsearch and Kibana are now setup and you can login with username **elastic** and the password noted in previous step
 
 # Setup Fleet Server
@@ -65,8 +67,12 @@ sudo ./elastic-agent install \
 
 * Update **kibana.yml** to point the Fleet output to the publicly accessible Elasticsearch address
 <img width="841" alt="image" src="https://user-images.githubusercontent.com/100947826/192083211-a23fa6af-8950-4431-bfef-fdd0c5bd08fe.png">
+
 * Navigate to Fleet UI and check that Fleet Server agent is healthy and logs are displayed
+
 <img width="1455" alt="image" src="https://user-images.githubusercontent.com/100947826/192081030-3844a3b5-8aef-4954-b84a-a9303b4e1963.png">
+
+* Restart Kibana
 
 :tada: Take a minute to enjoy successfully setting up Elasticsearch, Kibana, and Fleet Server. Next, we'll get into adding the single, unified Elastic Agent to hosts we want to monitor.
 
@@ -74,7 +80,8 @@ sudo ./elastic-agent install \
 We'll set up an IIS Server from scratch and deploy both .NET Core and .NET Framework sample applications to see the Elastic APM profiler in action.
 
 ## Create Windows Server VM
-In this example, a Windows Server VM is created using Azure.
+In this example, a Windows Server VM is created using Azure.  We'll configure it later with IIS and some .NET applications later in [Configure IIS](configure-iis.md).
+
 <img width="795" alt="image" src="https://user-images.githubusercontent.com/100947826/192081239-08d060fa-a9f0-4cde-b023-640b28ba07dc.png">
 
 ## Adding an Elastic Agent
@@ -92,6 +99,15 @@ Expand-Archive .\elastic-agent-8.3.3-windows-x86_64.zip -DestinationPath .
 cd elastic-agent-8.3.3-windows-x86_64
 .\elastic-agent.exe install --url=https://ec2-3-14-3-84.us-east-2.compute.amazonaws.com:8220 --enrollment-token=TWozNWJZTUJWQlQ3RU9yaFBkdTM6cHdGTkYtRXVUR3F0QjdVOFBCNTZXdw== --fleet-server-es-ca-trusted-fingerprint=3acd20b394adcd3fcd83ada57cec534d2c653237ddda65eacff91d66789ad7be --insecure
 ```
+* Confirm data in the Agent logs
+
+![image](https://user-images.githubusercontent.com/100947826/192442954-42fb7bb3-ebf7-4347-a303-c6eaa68fbd80.png)
+
+# Wrapping Up
+:tada: We've configured Elastic and Kibana with Fleet Server. Next we move on to [Configuring IIS](configure-iis.md)
+
+![image](https://user-images.githubusercontent.com/100947826/192443230-5f9c97ef-c44a-45d0-af9e-9ddb7d34da77.png)
+
 
 # Troubleshooting
 ## Reset Elastic password
