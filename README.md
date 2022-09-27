@@ -4,7 +4,9 @@ There are several ways to deploy the Elastic stack, in order of increasing diffi
 - Self managed with Elastic Cloud for Kubernetes (ECK) or Elastic Cloud Enterprise (ECE)...these are orchestrated options making it simple to install and upgrade
 - Self-managed using binaries
 
-In this walkthrough, we'll deploy Elastic using the last option.  This will include setting up self-managed Elasticsearch, Kibana, and Fleet Server on a Linux virtual machine. Then we'll set up some Observability for an IIS Server running both .NET Core and .NET Framework applications, as well as a SQL Server to see both infrastructure metrics and APM data.
+In this walkthrough, we'll deploy Elastic using the last option.  This will include setting up self-managed Elasticsearch, Kibana, and Fleet Server on a Linux virtual machine. Then we'll set up some Observability for an IIS Server running both .NET Core and .NET Framework applications, as well as a SQL Server to see both infrastructure metrics and APM data. 
+
+:raised_hand: **That being said, if using the Elastic Cloud...skip to [Configuring IIS](configure-iis.md).**
 
 ![](https://www.elastic.co/guide/en/fleet/master/images/fleet-server-communication.png)
 Reference: [https://www.elastic.co/guide/en/fleet/master/fleet-server.html](https://www.elastic.co/guide/en/fleet/master/fleet-server.html)
