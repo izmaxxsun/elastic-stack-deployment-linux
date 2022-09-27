@@ -10,8 +10,10 @@ This guide walks through configuring IIS on Windows Server to serve up a .NET Fr
 * On **Select server roles**, check the **Web Server (IIS)** checkbox and click **next**
 * From the **Add Roles and Features Wizard**, check **Include management tools** and click **Add Features**
 <img width="415" alt="image" src="https://user-images.githubusercontent.com/100947826/192176892-1bfe8fd4-ca26-48de-a57d-5fd0ee9d3e4a.png">
+
 * Click **Next**
 * Check **ASP.NET 4.8** and click **Next**
+
 <img width="783" alt="image" src="https://user-images.githubusercontent.com/100947826/192177026-f4c324a7-8325-4ee9-a973-bf7dcfe2f174.png">
 
 * On **Web Server Role (IIS)**, click **Next**
