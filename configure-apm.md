@@ -33,9 +33,6 @@ Now that the APM Integration is running, we can start feeding it data by setting
 
 <img width="870" alt="image" src="https://user-images.githubusercontent.com/100947826/192295249-b6302cf4-9c75-427d-b627-bf3fed68afd7.png">
 
-### Make sure C and C++ (MSVC) Runtime Libraries Installed (for .NET APM Agent)
-This prerequisite is prominently listed at the top of the Profiler Auto Instrumentation documentation but can be overlooked and burn unnecessary time.  Download here: https://docs.microsoft.com/en-US/cpp/windows/latest-supported-vc-redist?view=msvc-170
-
 ### Configure Environment Variables
 There's a number of available settings you can update via environment variable and these can be scoped at your desired level.  For example, you could provide a separate set of environment variables per Application Pool or you could define it a higher level.
   
