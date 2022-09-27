@@ -21,6 +21,30 @@ This guide walks through configuring IIS on Windows Server to serve up a .NET Fr
 
 Reference: [Set up IIS on Windows Virtual Machine | Microsoft Developer Support](https://devblogs.microsoft.com/premier-developer/set-up-iis-on-windows-virtual-machine/)
 
+## Install ASP.NET
+* From **Windows Powershell**, run **Install-WindowsFeature Web-Asp-Net45**
+
+<img width="733" alt="image" src="https://user-images.githubusercontent.com/100947826/192179690-55750f85-50ec-45a7-b2a0-047bc6f35359.png">
+
+* Close IIS Manager and re-open it, an **ASP.NET** section is now visible
+
+<img width="579" alt="image" src="https://user-images.githubusercontent.com/100947826/192403305-5a567db1-5ec0-480e-9a1b-0f4b50bb7b08.png">
+
+## Install .NET Core Hosting Bundle
+Download and install the hosting bundle (https://docs.microsoft.com/en-us/aspnet/core/tutorials/publish-to-iis?view=aspnetcore-6.0&tabs=visual-studio)
+
+<img width="341" alt="image" src="https://user-images.githubusercontent.com/100947826/192403976-cffaf6ca-4cc1-44ee-9e11-518e7fc74397.png">
+
+## Install C and C++ Runtime Libraries
+This prerequisite is prominently listed at the top of the Profiler Auto Instrumentation documentation but can be overlooked and burn unnecessary time.  Download here: https://docs.microsoft.com/en-US/cpp/windows/latest-supported-vc-redist?view=msvc-170
+
+## Restart IIS
+We've made a lot of changes, time to restart IIS. Couple ways to do this, but this one does the trick.
+```
+iisreset /noforce
+```
+
+## Deploy .NET Applications
 ## Serving Up a .NET Framework Application
 * Copy the **Web Framework Application** from this repository or use Git to clone it onto the Windows server. This was built using .NET Framework 4.8.
 * From IIS Manager, right-click on **Sites** and select **Add Website...**
@@ -30,16 +54,17 @@ Reference: [Set up IIS on Windows Virtual Machine | Microsoft Developer Support]
 * Provide a **Site Name**, e.g. Framework WebApp
 * Set **Physical Path** to the publish folder of the application, i.e. **C:\DemoFiles\WebApplication1\WebApplication1\bin\app.publish**
 * Set the **Binding** to an unassigned port, e.g. 8080
-* From Windows Explorer, update the Security settings for **Web.config** (located in **bin/app.publish**) so that the **IIS_IUSRS** has read-execute access
+* Click **Browse** to view the site
 
 <img width="1200" alt="image" src="https://user-images.githubusercontent.com/100947826/192179411-c30432d6-c1c6-42b0-9d52-467c5cec76e5.png">
 
-* From **Windows Powershell**, run **Install-WindowsFeature Web-Asp-Net45**
+## Serving up a .NET Core Application
+* Copy the **Web Core Application** from this repository or use Git to clone it onto the Windows server. This was built using .NET 6.
+* From IIS Manager, right-click on **Sites** and select **Add Website...**
+* Provide a **Site Name**, e.g. Core WebApp
+* Set **Physical Path** to the publish folder of the application, i.e. **C:\DemoFiles\WebApplication1\WebApplication1\bin\app.publish**
+* Set the **Binding** to an unassigned port, e.g. 8081
+* (Optional) From Windows Explorer, update the Security settings for **Web.config** (located in **bin/app.publish**) so that the **IIS_IUSRS** has read-execute access
+* Click **Browse** to view the site
 
-<img width="733" alt="image" src="https://user-images.githubusercontent.com/100947826/192179690-55750f85-50ec-45a7-b2a0-047bc6f35359.png">
-
-* Restart IIS
-* Check that the .NET Framework application is running from your browser at the port specified earlier
-
-## Install .NET Core Hosting Bundle
-Download and install the hosting bundle (https://docs.microsoft.com/en-us/aspnet/core/tutorials/publish-to-iis?view=aspnetcore-6.0&tabs=visual-studio)
+:tada: We've deployed two .NET applications from the legacy .NET Framework and the newer .NET Core. Next, we'll look at [Adding APM](configure-apm.md).
