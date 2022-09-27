@@ -32,15 +32,13 @@ Now that the APM Integration is running, we can start feeding it data by setting
 
 ### Download Elastic APM Profiler
 * Download the **elastic_apm_profiler_<version>.zip** from the Releases page: https://github.com/elastic/apm-agent-dotnet/releases
-* Unzip the file into a folder on the IIS Server (version 1.16.1 was used for this example)
+* Unzip the file into a folder on the IIS Server (version 1.16.1 was used for this example). This had problems with long file paths, so suggest placing in C: drive or minimize amount of nested folders.
 
 <img width="870" alt="image" src="https://user-images.githubusercontent.com/100947826/192295249-b6302cf4-9c75-427d-b627-bf3fed68afd7.png">
 
-### Configure Environment Variables
-There's a number of available settings you can update via environment variable and these can be scoped at your desired level.  For example, you could provide a separate set of environment variables per Application Pool or you could define it a higher level.
   
-With IIS, these environment variables can also be set using AppCmd.  Example command below can be run in PowerShell to set the minimum needed settings.
-- ELASTIC_APM_ENVIRONMENT - can be used for data separation between teams and projects (see UNICC bitbucket writeup)
+### Configure Environment Variables
+There's a number of available settings you can update via environment variable and these can be scoped at your desired level.  For example, you could provide a general set of environment variables as Application Pool Defaults and then provide specific configurations per Application Pool. The following will go through one possible variation.
   
 #### Setting Application Pool Defaults
 This will detect either .NET Framework or Core applications when they startup. This can be set from the Configuration Editor in IIS or the AppCmd can be used to programatically set it through PowerShell:
@@ -60,6 +58,7 @@ $environment = @{
   COMPlus_LoaderOptimization = "1" 
   CORECLR_ENABLE_PROFILING = "1"
   CORECLR_PROFILER_PATH = "$profilerHomeDir\elastic_apm_profiler.dll"
+  CORECLR_PROFILER = "{FA65FE15-F085-4681-9B20-95E04F6C03CC}"
 }
 
 $environment.Keys | ForEach-Object {
